@@ -1,0 +1,95 @@
+{
+  "schema": "smf.session-timeline.v1",
+  "id": "ST-7D31",
+  "title": "Tool-heavy debug",
+  "agent": "Composer",
+  "date": "2026-09-15",
+  "heuristic": true,
+  "events": [
+    {
+      "type": "USER",
+      "summary": "Timeline card drops the last DONE event when the log is long. Find why",
+      "at": "11:08",
+      "step": 1
+    },
+    {
+      "type": "AGENT",
+      "summary": "Reproducing from the overflow helper and the fixture log",
+      "at": "11:08",
+      "step": 2
+    },
+    {
+      "type": "TOOL",
+      "summary": "Grep visibleSpine",
+      "at": "11:09",
+      "step": 3
+    },
+    {
+      "type": "TOOL",
+      "summary": "Read src/lib/parse.ts",
+      "at": "11:09",
+      "step": 4
+    },
+    {
+      "type": "TOOL",
+      "summary": "Grep MAX_VISIBLE",
+      "at": "11:10",
+      "step": 5
+    },
+    {
+      "type": "TOOL",
+      "summary": "Read src/lib/parse.test.ts",
+      "at": "11:10",
+      "step": 6
+    },
+    {
+      "type": "TOOL",
+      "summary": "Grep type === \"DONE\"",
+      "at": "11:11",
+      "step": 7
+    },
+    {
+      "type": "AGENT",
+      "summary": "Overflow sliced the tail. Keep the last DONE when collapsing",
+      "at": "11:12",
+      "step": 8
+    },
+    {
+      "type": "TOOL",
+      "summary": "StrReplace src/lib/parse.ts",
+      "at": "11:13",
+      "step": 9
+    },
+    {
+      "type": "TOOL",
+      "summary": "Shell npm test",
+      "at": "11:14",
+      "step": 10
+    },
+    {
+      "type": "TOOL",
+      "summary": "Read src/components/TimelineCard.tsx",
+      "at": "11:15",
+      "step": 11
+    },
+    {
+      "type": "TOOL",
+      "summary": "Grep overflow",
+      "at": "11:15",
+      "step": 12
+    },
+    {
+      "type": "TOOL",
+      "summary": "Shell npm run build",
+      "at": "11:16",
+      "step": 13
+    },
+    {
+      "type": "DONE",
+      "summary": "Overflow now keeps DONE. Tests and build pass",
+      "at": "11:18",
+      "step": 14
+    }
+  ],
+  "transcript": "title: Tool-heavy debug\nagent: Composer\ndate: 2026-09-15\n\nUser: Timeline card drops the last DONE event when the log is long. Find why\nAssistant: Reproducing from the overflow helper and the fixture log\ntool: Grep visibleSpine\ntool: Read src/lib/parse.ts\ntool: Grep MAX_VISIBLE\ntool: Read src/lib/parse.test.ts\ntool: Grep type === \"DONE\"\nAssistant: Overflow sliced the tail. Keep the last DONE when collapsing\ntool: StrReplace src/lib/parse.ts\ntool: Shell npm test\ntool: Read src/components/TimelineCard.tsx\ntool: Grep overflow\ntool: Shell npm run build\nDone: Overflow now keeps DONE. Tests and build pass\n"
+}
