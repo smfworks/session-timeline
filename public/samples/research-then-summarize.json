@@ -1,0 +1,53 @@
+{
+  "schema": "smf.session-timeline.v1",
+  "id": "ST-4C11",
+  "title": "Research, then summarize",
+  "agent": "Hermes",
+  "date": "2026-09-17",
+  "heuristic": true,
+  "events": [
+    {
+      "type": "USER",
+      "summary": "Survey how sibling SMF viral apps handle PNG export and write a one-pager",
+      "at": "09:14",
+      "step": 1
+    },
+    {
+      "type": "AGENT",
+      "summary": "Cloning refuse-card, agent-contract, and agent-receipt for the pattern",
+      "at": "09:15",
+      "step": 2
+    },
+    {
+      "type": "TOOL",
+      "summary": "gh repo clone smfworks/refuse-card",
+      "at": "09:15",
+      "step": 3
+    },
+    {
+      "type": "TOOL",
+      "summary": "Read src/lib/exportImage.ts",
+      "at": "09:16",
+      "step": 4
+    },
+    {
+      "type": "TOOL",
+      "summary": "Read package.json across three siblings",
+      "at": "09:17",
+      "step": 5
+    },
+    {
+      "type": "AGENT",
+      "summary": "html-to-image, 3× pixelRatio, navy #0A0F1F background — same on all three",
+      "at": "09:19",
+      "step": 6
+    },
+    {
+      "type": "DONE",
+      "summary": "One-pager drafted locally. No public post",
+      "at": "09:22",
+      "step": 7
+    }
+  ],
+  "transcript": "title: Research, then summarize\nagent: Hermes\ndate: 2026-09-17\n\nUser: Survey how sibling SMF viral apps handle PNG export and write a one-pager\nAssistant: Cloning refuse-card, agent-contract, and agent-receipt for the pattern\ntool: gh repo clone smfworks/refuse-card\ntool: Read src/lib/exportImage.ts\ntool: Read package.json across three siblings\nAssistant: html-to-image, 3× pixelRatio, navy #0A0F1F background — same on all three\nDone: One-pager drafted locally. No public post\n"
+}

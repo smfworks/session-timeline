@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/smfworks/session-timeline/blob/main/public/schema/session-timeline.schema.json",
+  "title": "SessionTimeline",
+  "description": "A single agent/chat session that Session Timeline can print as a shareable vertical card. Receipt is a stamp of what happened; Timeline is the story of the run. Heuristic demo — not an audit.",
+  "type": "object",
+  "required": ["title", "events"],
+  "additionalProperties": true,
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "smf.session-timeline.v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^ST-[0-9A-F]{4}$",
+      "description": "Timeline serial printed on the card."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short headline for the run."
+    },
+    "name": {
+      "type": "string",
+      "description": "Alias for title."
+    },
+    "agent": {
+      "type": "string",
+      "description": "Agent or model name printed on the meta line."
+    },
+    "model": {
+      "type": "string",
+      "description": "Alias for agent."
+    },
+    "date": {
+      "type": "string",
+      "description": "Session date (YYYY-MM-DD or a freeform label)."
+    },
+    "issuedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional ISO timestamp; date is derived when omitted."
+    },
+    "events": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Ordered spine of the run. Other tools can emit this and skip the paste parser.",
+      "items": {
+        "type": "object",
+        "required": ["type", "summary"],
+        "additionalProperties": true,
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["USER", "AGENT", "TOOL", "ERROR", "DONE"]
+          },
+          "kind": {
+            "type": "string",
+            "description": "Alias for type."
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "description": "One-line event chip."
+          },
+          "text": {
+            "type": "string",
+            "description": "Alias for summary."
+          },
+          "at": {
+            "type": "string",
+            "description": "Optional timestamp or clock label (13:04, ISO-8601)."
+          },
+          "time": {
+            "type": "string",
+            "description": "Alias for at."
+          },
+          "step": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "transcript": {
+      "type": "string",
+      "description": "Optional raw log. Ignored by the printer when events are present; used to round-trip a paste."
+    },
+    "heuristic": {
+      "type": "boolean",
+      "const": true,
+      "description": "Always true — this is a demo parser, not an audit log."
+    }
+  }
+}

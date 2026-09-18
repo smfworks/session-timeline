@@ -1,0 +1,59 @@
+{
+  "schema": "smf.session-timeline.v1",
+  "id": "ST-9B04",
+  "title": "Successful PR fix",
+  "agent": "Cursor",
+  "date": "2026-09-18",
+  "heuristic": true,
+  "events": [
+    {
+      "type": "USER",
+      "summary": "CI is red on main — find the failure and open a PR",
+      "at": "13:02",
+      "step": 1
+    },
+    {
+      "type": "AGENT",
+      "summary": "Inspecting the failing GitHub check and the parser tests",
+      "at": "13:03",
+      "step": 2
+    },
+    {
+      "type": "TOOL",
+      "summary": "gh run view --log",
+      "at": "13:03",
+      "step": 3
+    },
+    {
+      "type": "TOOL",
+      "summary": "Read src/lib/parse.ts",
+      "at": "13:04",
+      "step": 4
+    },
+    {
+      "type": "AGENT",
+      "summary": "Null tool name on empty paste — add a guard and a unit test",
+      "at": "13:06",
+      "step": 5
+    },
+    {
+      "type": "TOOL",
+      "summary": "StrReplace src/lib/parse.ts",
+      "at": "13:07",
+      "step": 6
+    },
+    {
+      "type": "TOOL",
+      "summary": "npm test",
+      "at": "13:08",
+      "step": 7
+    },
+    {
+      "type": "DONE",
+      "summary": "Draft PR open. Tests green on the branch",
+      "at": "13:12",
+      "step": 8
+    }
+  ],
+  "transcript": "title: Successful PR fix\nagent: Cursor\ndate: 2026-09-18\n\nUser: CI is red on main — find the failure and open a PR\nAssistant: Inspecting the failing GitHub check and the parser tests\n[tool] gh run view --log\nRead src/lib/parse.ts\nAssistant: Null tool name on empty paste — add a guard and a unit test\ntool: StrReplace src/lib/parse.ts\ntool: npm test\nDone: Draft PR open. Tests green on the branch\n"
+}
