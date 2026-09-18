@@ -37,7 +37,7 @@ export function parseSessionLog(
   const labeled = parseLabeled(text);
   const heuristic = parseHeuristic(text);
   const merged = mergeParsed(labeled, heuristic);
-  if (!merged.events.length) return null;
+  if (!Array.isArray(merged.events) || merged.events.length === 0) return null;
   return normalizeTimeline(merged, overrides);
 }
 
@@ -265,7 +265,12 @@ function splitBlocks(text: string): string[] {
   return blocks;
 }
 
+function isMetaLine(line: string): boolean {
+  return /^(title|headline|name|agent|model|stack|date|when|session)\s*:/i.test(line);
+}
+
 function isRoleStart(line: string): boolean {
+  if (isMetaLine(line)) return false;
   return (
     USER_HEAD.test(line) ||
     AGENT_HEAD.test(line) ||
@@ -273,7 +278,7 @@ function isRoleStart(line: string): boolean {
     ERROR_HEAD.test(line) ||
     DONE_HEAD.test(line) ||
     /^<(?:user|assistant|tool_call|invoke)/i.test(line) ||
-    /^\[(?:tool|function|error)[:\s]/i.test(line) ||
+    /^\[(?:tool|function|error)\b/i.test(line) ||
     /^(?:you said|chatgpt said)\b/i.test(line)
   );
 }
@@ -282,6 +287,7 @@ function classifyBlock(
   block: string,
 ): { type: EventType; summary: string; at?: string } | null {
   const first = block.split(/\n/)[0]?.trim() ?? block;
+  if (isMetaLine(first)) return null;
   const at = extractTime(block);
   const body = stripTime(stripDecor(block));
 
@@ -308,7 +314,7 @@ function classifyBlock(
   if (
     TOOL_HEAD.test(first) ||
     /^<(?:tool_call|invoke|function_call)/i.test(first) ||
-    /^\[(?:tool|function)[:\s]/i.test(first) ||
+    /^\[(?:tool|function)\b/i.test(first) ||
     /\b(called|invoked|using)\s+(?:the\s+)?(?:tool|function|skill)\b/i.test(first)
   ) {
     return { type: "TOOL", summary: toolSummary(body), at };
@@ -324,13 +330,14 @@ function stripHead(value: string, pattern: RegExp): string {
 }
 
 function toolSummary(value: string): string {
+  const stripped = value.replace(/^\[(?:tool|function)[^\]]*\]\s*/i, "");
   const named =
-    value.match(
+    stripped.match(
       /(?:tool|function|skill|command)\s*[:=]\s*[`"'"]?([A-Za-z][\w./:-]*)/i,
     )?.[1] ||
-    value.match(/name=["']([^"']+)/i)?.[1] ||
-    value.match(/^tool\s+([A-Za-z][\w./:-]*)/i)?.[1];
-  const cleaned = stripHead(value, TOOL_HEAD);
+    stripped.match(/name=["']([^"']+)/i)?.[1] ||
+    stripped.match(/^tool\s+([A-Za-z][\w./:-]*)/i)?.[1];
+  const cleaned = stripHead(stripped, TOOL_HEAD);
   if (named && cleaned.toLowerCase().startsWith(named.toLowerCase()) === false) {
     return `${named} ${cleaned}`.trim();
   }
