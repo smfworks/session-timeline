@@ -12,9 +12,9 @@ import {
 } from "../types.ts";
 
 const USER_HEAD =
-  /^(?:user|human|you|operator|prompt|question|michael)\s*(?:said)?\s*[:\-–]\s*/i;
+  /^(?:user|human|you|operator|prompt)\s*(?:said)?\s*[:\-–]\s*/i;
 const AGENT_HEAD =
-  /^(?:assistant|agent|claude|chatgpt|gpt|composer|hermes|openclaw|bot|model|aiona)\s*(?:said)?\s*[:\-–]\s*/i;
+  /^(?:assistant|agent|claude|chatgpt|gpt|composer|hermes|openclaw|bot|model)\s*(?:said)?\s*[:\-–]\s*/i;
 const TOOL_HEAD =
   /^(?:tool(?:\s*call)?|function(?:\s*call)?|invoke|invoked|called|using|used|ran|shell|bash|read|write|grep|strreplace|search)\s*[:\-–]?\s*/i;
 const ERROR_HEAD = /^(?:error|exception|failed|failure|traceback|panic|stderr)\s*[:\-–]\s*/i;
