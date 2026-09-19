@@ -6,6 +6,7 @@ import { Actions } from "./components/Actions";
 import { Composer } from "./components/Composer";
 import { Header } from "./components/Header";
 import { SisterStrip } from "./components/SisterStrip";
+import { HandoffBanner } from "./components/HandoffBanner";
 import { TimelineCard } from "./components/TimelineCard";
 import { Toast } from "./components/Toast";
 import { formatCompactStats, formatShareText } from "./lib/share";
@@ -143,7 +144,8 @@ export default function App() {
     <div className="page">
       <div className="ambient" aria-hidden="true" />
       <Header />
-      <SisterStrip current="session-timeline" />
+      <SisterStrip current="session-timeline" payload={raw} />
+      <HandoffBanner onPaste={(text) => { setRaw(text); setSampleId(null); }} />
       <main className="layout">
         <Composer
           raw={raw}
