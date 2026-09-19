@@ -98,6 +98,20 @@ DONE: Shipped
     assert.equal(card?.events.length, 2);
     assert.equal(card?.events[0].type, "USER");
   });
+
+  it("does not treat personal names as speaker roles", () => {
+    const card = parseSessionLog(`
+Michael: this is a person, not a role
+Aiona: also a person
+User: real prompt
+Assistant: working
+Done: shipped
+`);
+    assert.ok(card);
+    const users = card.events.filter((event) => event.type === "USER");
+    assert.equal(users.length, 1);
+    assert.match(users[0].summary, /real prompt/);
+  });
 });
 
 describe("visibleSpine", () => {
